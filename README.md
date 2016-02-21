@@ -103,3 +103,19 @@ Special Thanks
 - [middleman-syntax](https://github.com/middleman/middleman-syntax)
 - [middleman-gh-pages](https://github.com/edgecase/middleman-gh-pages)
 - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
+
+
+`Authorization: meowmeowmeow`
+
+<aside class="notice">
+You must replace <code>meowmeowmeow</code> with your personal API key.
+</aside>
+
+
+```javascript
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+```
+ 
+> Make sure to replace `meowmeowmeow` with your API key.
