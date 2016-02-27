@@ -7,6 +7,7 @@
 <tr><td>displayName</td><td>String</td></tr>  
 <tr><td>image</td><td>[Resource]</td></tr>
 <tr><td>username</td><td>ObjectId</td></tr>  
+<tr><td>role</td><td>admin/user</td></tr>  
 </table> 
 
 ## AccessToken

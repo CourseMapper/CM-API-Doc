@@ -10,6 +10,7 @@ toc_footers:
 includes:
   - discussions
   - links
+  - accounts
   - errors
   - models
 
@@ -437,13 +438,8 @@ Key | Value
 ----- | -----
 result | boolean
 treeNode | treeNode
-
-
-# Links
-## Get Links Based on Node Id
-## Get Discussion Detail and Its Replies
+ 
   
 # Votes
-
-#Accounts
+ 
  
