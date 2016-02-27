@@ -1,0 +1,119 @@
+# Discussions 
+  
+
+## Get Discussion's Topics Based on Course Id
+```shell
+curl "https://coursemapper/api/discussions/<courseId>"
+  -H "Authorization: Bearer <accessToken>"
+
+e.g.:
+curl "https://coursemapper/api/discussions/56b0efc1309953f719610aaa"
+  -H "Authorization: Bearer 2ksjow2039ze_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah"
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "result": true,
+  "posts": [
+    {
+      "_id": "56b1cc0ba526d27803559a10",
+      "dateAdded": "2016-02-03T09:44:43.609Z",
+      "dateUpdated": "2016-02-03T09:44:43.609Z",
+      "slug": "Web-Technology-as-a-desktop-program",
+      "course": "56b11bf8309953f719610f65",
+      "title": "Web Technology as a desktop program",
+      "content": "...",
+      "createdBy": {
+        "_id": "5530bef8e5a9e0dd261059b8",
+        "username": "rpl",
+        "displayName": "akana abaca",
+        "image": "//www.gravatar.com/avatar/57a6e733c1a82f02e5d95114e77217a4?s=200&r=pg&d=mm"
+      }, 
+      "totalVotes": 0 
+    },
+    {
+      "_id": "56b12a6a309953f719610f6b",
+      "dateAdded": "2016-02-02T22:15:06.865Z",
+      "dateUpdated": "2016-02-02T22:15:06.865Z",
+      "slug": "What-is-Web-crawler",
+      "course": "56b11bf8309953f719610f65",
+      "title": "What is Web crawler?",
+      "content": "...",
+      "createdBy": {
+        "_id": "5530bef8e5a9e0dd261059b8",
+        "username": "rpl",
+        "displayName": "akana abaca",
+        "image": "//www.gravatar.com/avatar/57a6e733c1a82f02e5d95114e77217a4?s=200&r=pg&d=mm"
+      }, 
+      "totalVotes": 0 
+    } 
+  ]
+}
+```
+`GET /api/discussions/<courseId>`
+
+### Response
+Key    | Value
+-----  | -----
+result | boolean
+posts  | [Post] 
+
+## Get A Discussion's Replies
+
+```shell
+curl "https://coursemapper/api/discussion/<postId>/posts"
+  -H "Authorization: Bearer <accessToken>"
+
+e.g.:
+curl "https://coursemapper/api/discussion/56b0efc1309953f719610aaa/posts"
+  -H "Authorization: Bearer 2ksjow2039z=_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah"
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "result": true,
+  "posts": [
+    {
+      "_id": "56b12ab7309953f719610f6d",
+      "dateAdded": "2016-02-02T22:16:23.360Z",
+      "dateUpdated": "2016-02-02T22:16:23.362Z",
+      "slug": "",
+      "title": " ",
+      "content": "...",
+      "createdBy": {
+        "_id": "5530bef8e5a9e0dd261059b8",
+        "username": "rpl",
+        "displayName": "akana abaca",
+        "image": "//www.gravatar.com/avatar/57a6e733c1a82f02e5d95114e77217a4?s=200&r=pg&d=mm"
+      }, 
+      "parentPost": "56b12a6a309953f719610f6b",
+      "totalVotes": 0 
+    },
+    {
+      "_id": "56b12a76309953f719610f6c",
+      "dateAdded": "2016-02-02T22:15:18.316Z",
+      "dateUpdated": "2016-02-02T22:15:18.318Z",
+      "slug": "",
+      "title": " ",
+      "content": "...",
+      "createdBy": {
+        "_id": "5530bef8e5a9e0dd261059b8",
+        "username": "rpl",
+        "displayName": "akana abaca",
+        "image": "//www.gravatar.com/avatar/57a6e733c1a82f02e5d95114e77217a4?s=200&r=pg&d=mm"
+      }, 
+      "parentPost": "56b12a6a309953f719610f6b",
+      "totalVotes": 0
+    }
+  ]
+}
+```
+`GET /api/discussion/<topicId>/posts`
+
+### Response
+Key | Value
+----- | -----
+result | boolean
+posts | [Post]

@@ -8,7 +8,10 @@ toc_footers:
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
+  - discussions
+  - links
   - errors
+  - models
 
 search: true
 ---
@@ -78,16 +81,7 @@ grant_type| "authorization_code" (the only supported)
 }
 ```
 The result from the exchange contains this json:
-
-## Models
-
-<table>
-<tr><td colspan="2"><strong>accessToken</strong></td></tr>
-<tr><td>accessToken</td><td>String</td></tr>
-<tr><td>userId</td><td>objectId</td></tr>
-<tr><td>email</td><td>String</td></tr> 
-</table>
-
+  
 Parameter | Description
 --------- | -----------
 result | boolean 
@@ -100,28 +94,7 @@ CourseMapper expects for the access token to be included in all API requests to 
 
 `Bearer 2ksjow2039z=_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah`
 
-# Categories
-
-## Models
-
-<table>
-<tr><td colspan="2"><strong>Category</strong></td></tr>
-<tr><td>_id</td><td>ObjectId</td></tr>
-<tr><td>name</td><td>String</td></tr>
-<tr><td>slug</td><td>String</td></tr>
-<tr><td>parentCategory</td><td>Category</td></tr>
-<tr><td>positionFromRoot</td><td>{ "x": int, "y": int }</td></tr>
-<tr><td>courseTags</td><td>[Tag]</td></tr>
-<tr><td>subCategories</td><td>[Category]</td></tr>
-</table>
-
-<table>
-<tr><td colspan="2"><strong>Tag</strong></td></tr>
-<tr><td>_id</td><td>ObjectId</td></tr>
-<tr><td>name</td><td>String</td></tr>
-<tr><td>slug</td><td>String</td></tr> 
-<tr><td>dateAdded</td><td>Date()</td></tr> 
-</table>
+# Categories 
    
 ## Get All Categories
   
@@ -179,36 +152,7 @@ Key | Value
 result | boolean
 categories | array of Category
 
-# Courses
-## Models
-
-<table>
-<tr><td colspan="2"><strong>CoursePreview</strong></td></tr>
-<tr><td>_id</td><td>ObjectId</td></tr>
-<tr><td>name</td><td>String</td></tr>
-<tr><td>slug</td><td>String</td></tr>
-<tr><td>picture</td><td>String (URL)</td></tr>
-<tr><td>video</td><td>String (URL)</td></tr>
-<tr><td>dateAdded</td><td>Date()</td></tr>
-<tr><td>createdBy</td><td>{"name": String}</td></tr>
-</table>
-
-<table>
-<tr><td colspan="2"><strong>Course</strong></td></tr>
-<tr><td>_id</td><td>ObjectId</td></tr>
-<tr><td>name</td><td>String</td></tr>
-<tr><td>slug</td><td>String</td></tr>
-<tr><td>smallDescription</td><td>String</td></tr>
-<tr><td>description</td><td>String</td></tr>
-<tr><td>settings</td><td>Mixed</td></tr>
-<tr><td>tabsActive</td><td>Mixed</td></tr>
-<tr><td>category</td><td>Category</td></tr>
-<tr><td>courseTags</td><td>[Tag]</td></tr>
-<tr><td>picture</td><td>String (URL)</td></tr>
-<tr><td>video</td><td>String (URL)</td></tr>
-<tr><td>dateAdded</td><td>Date()</td></tr>
-<tr><td>createdBy</td><td>{"name": String}</td></tr>
-</table>
+# Courses 
 
 ## Get Courses based on Category Id
 
@@ -334,31 +278,8 @@ Key | Value
 result | boolean
 course | Course 
 
-# Maps
-## Models
-<table>
-<tr><td colspan="2"><strong>TreeNode</strong></td></tr>
-<tr><td>_id</td><td>ObjectId</td></tr>
-<tr><td>name</td><td>String</td></tr>  
-<tr><td>Resources</td><td>[Resource]</td></tr>
-<tr><td>courseId</td><td>ObjectId</td></tr> 
-<tr><td>positionFromRoot</td><td>{ "y": int, "x": int }</td></tr>
-<tr><td>isDeleted</td><td>boolean</td></tr>
-<tr><td>dateAdded</td><td>Date()</td></tr>
-<tr><td>createdBy</td><td>{"name": String}</td></tr> 
-<tr><td>type</td><td>String (subTopic | contentNode)</td></tr>
-<tr><td>childrens</td><td>[TreeNode]</td></tr>
-</table>
-<table>
-<tr><td colspan="2"><strong>Resource</strong></td></tr>
-<tr><td>_id</td><td>ObjectId</td></tr>
-<tr><td>courseId</td><td>ObjectId</td></tr> 
-<tr><td>treeNodeId</td><td>ObjectId</td></tr> 
-<tr><td>link</td><td>String (URL)</td></tr>
-<tr><td>dateAdded</td><td>Date()</td></tr>
-<tr><td>createdBy</td><td>{"name": String}</td></tr> 
-<tr><td>type</td><td>String (pdf | video | youtube | mp4)</td></tr> 
-</table>
+# Maps 
+
 ## Get All Nodes Based on Course Id
 ```shell
 curl "https://coursemapper/api/treeNodes/course/<courseId>"
@@ -517,9 +438,6 @@ Key | Value
 result | boolean
 treeNode | treeNode
 
-# Discussions
-## Get Discussions Based on Course Id
-## Get Discussion Detail and Its Replies
 
 # Links
 ## Get Links Based on Node Id
