@@ -3,7 +3,6 @@ title: CourseMapper API Reference
 
 language_tabs:
   - shell
-  - javascript
 
 toc_footers: 
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
@@ -80,14 +79,19 @@ grant_type| "authorization_code" (the only supported)
 ```
 The result from the exchange contains this json:
 
+## Models
+
+<table>
+<tr><td colspan="2"><strong>accessToken</strong></td></tr>
+<tr><td>accessToken</td><td>String</td></tr>
+<tr><td>userId</td><td>objectId</td></tr>
+<tr><td>email</td><td>String</td></tr> 
+</table>
+
 Parameter | Description
 --------- | -----------
 result | boolean 
-access_token | object
-access_token.accessToken | random string
-access_token.userId | mongo object id
-access_token.email | email
- 
+access_token | object  
 
 ## Finally
 CourseMapper expects for the access token to be included in all API requests to the server in a header that looks like the following:
@@ -98,6 +102,27 @@ CourseMapper expects for the access token to be included in all API requests to 
 
 # Categories
 
+## Models
+
+<table>
+<tr><td colspan="2"><strong>Category</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>name</td><td>String</td></tr>
+<tr><td>slug</td><td>String</td></tr>
+<tr><td>parentCategory</td><td>Category</td></tr>
+<tr><td>positionFromRoot</td><td>{ "x": int, "y": int }</td></tr>
+<tr><td>courseTags</td><td>[Tag]</td></tr>
+<tr><td>subCategories</td><td>[Category]</td></tr>
+</table>
+
+<table>
+<tr><td colspan="2"><strong>Tag</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>name</td><td>String</td></tr>
+<tr><td>slug</td><td>String</td></tr> 
+<tr><td>dateAdded</td><td>Date()</td></tr> 
+</table>
+   
 ## Get All Categories
   
 ```shell
@@ -112,22 +137,34 @@ curl "https://coursemapper/api/categories"
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "result": true, "categories":
+  [
+    {
+      "_id": "56b0efc1309953f719610f58",
+      "name": "I.T",
+      "slug": "I-T",
+      "parentCategory": null,
+      "positionFromRoot": {"x": 1, "y": 0},
+      "courseTags": [{
+        "name": "PHP"
+      }],
+      "subCategories": [
+        {
+          "_id": "56b0efc1309953f719610f31",
+          "name": "Server Side",
+          "slug": "server-side",
+          "parentCategory": 1,
+          "positionFromRoot": {"x": 2, "y": 2},
+          "courseTags": [{
+            "name": "Web"
+          }],
+          "subCategories":[]
+        }
+      ]
+    } 
+  ]
+}
 ```
 
 This endpoint retrieves all Categories.
@@ -135,5 +172,360 @@ This endpoint retrieves all Categories.
 ### HTTP Request
 
 `GET /api/categories`
-   
+
+### Response
+Key | Value
+----- | -----
+result | boolean
+categories | array of Category
+
+# Courses
+## Models
+
+<table>
+<tr><td colspan="2"><strong>CoursePreview</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>name</td><td>String</td></tr>
+<tr><td>slug</td><td>String</td></tr>
+<tr><td>picture</td><td>String (URL)</td></tr>
+<tr><td>video</td><td>String (URL)</td></tr>
+<tr><td>dateAdded</td><td>Date()</td></tr>
+<tr><td>createdBy</td><td>{"name": String}</td></tr>
+</table>
+
+<table>
+<tr><td colspan="2"><strong>Course</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>name</td><td>String</td></tr>
+<tr><td>slug</td><td>String</td></tr>
+<tr><td>smallDescription</td><td>String</td></tr>
+<tr><td>description</td><td>String</td></tr>
+<tr><td>settings</td><td>Mixed</td></tr>
+<tr><td>tabsActive</td><td>Mixed</td></tr>
+<tr><td>category</td><td>Category</td></tr>
+<tr><td>courseTags</td><td>[Tag]</td></tr>
+<tr><td>picture</td><td>String (URL)</td></tr>
+<tr><td>video</td><td>String (URL)</td></tr>
+<tr><td>dateAdded</td><td>Date()</td></tr>
+<tr><td>createdBy</td><td>{"name": String}</td></tr>
+</table>
+
+## Get Courses based on Category Id
+
+```shell
+curl "https://coursemapper/api/category/<categoryId>/courses"
+  -H "Authorization: Bearer <accessToken>"
+
+e.g.:
+curl "https://coursemapper/api/category/56b0efc1309953f719610f58/courses"
+  -H "Authorization: Bearer 2ksjow2039z=_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+   "result":true,
+   "courses":[
+      {
+         "_id":"56b11bf8309953f719610f65", 
+         "dateAdded":"2016-02-02T21:13:28.808Z",
+         "slug":"Advanced-Web-Technologies-WebTech-2",
+         "name":"Advanced Web Technologies (WebTech 2)",
+         "createdBy":"5530bef8e5a9e0dd261059b8",
+         "category":"56b0efc1309953f719610f58",
+         "description":"<div>Advanced Web Technologies (WebTech 2)</div>",
+         "smallDescription":"Advanced Web Technologies (WebTech 2)", 
+         "picture":"/img/courses/56b11bf8309953f719610f65.png",
+         "courseTags":[
+            "56cde0ff8754f7b704180ada"
+         ] 
+      },
+      {
+         "_id":"56cdf5dced46e6dd19c3d555", 
+         "dateAdded":"2016-02-24T18:26:36.910Z",
+         "slug":"Advanced-Web-Technologies-WebTech-1",
+         "name":"Advanced Web Technologies (WebTech 1)",
+         "createdBy":"5530bef8e5a9e0dd261059b8",
+         "category":"56b0efc1309953f719610f58",
+         "description":"<div>course description</div>",
+         "smallDescription":"course\'s small description", 
+         "courseTags":[
+            "56cdf5dded46e6dd19c3d556"
+         ] 
+      }
+   ]
+}
+```
+
+`GET /api/category/<categoryId>/courses`
+
+### Response
+Key | Value
+----- | -----
+result | boolean
+courses | array of CoursePreview 
+
+## Get Course Detail
+
+```shell
+curl "https://coursemapper/api/course/<courseId>"
+  -H "Authorization: Bearer <accessToken>"
+
+e.g.:
+curl "https://coursemapper/api/course/56b0efc1309953f719610aaa"
+  -H "Authorization: Bearer 2ksjow2039z=_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "result": true,
+  "course": {
+    "_id": "56b11bf8309953f719610f65",
+    "dateUpdated": "2016-02-24T16:57:35.557Z",
+    "dateAdded": "2016-02-02T21:13:28.808Z",
+    "slug": "Advanced-Web-Technologies-WebTech-2",
+    "name": "Advanced Web Technologies (WebTech 2)",
+    "createdBy": {
+      "_id": "5530bef8e5a9e0dd261059b8",
+      "username": "rpl",
+      "displayName": "akana abaca"
+    },
+    "category": {
+      "_id": "56b0efc1309953f719610f58",
+      "dateAdded": "2016-02-02T18:04:49.961Z",
+      "dateUpdated": "2016-02-02T18:04:49.961Z",
+      "slug": "Web-Technologies",
+      "name": "Web Technologies",
+      "parentCategory": "568d51194076070762cfb8f9",
+      "positionFromRoot": {
+        "y": -316,
+        "x": 275
+      }, 
+      "courseTags": [
+        "56cde0ff8754f7b704180ada",
+        "56cdf5dded46e6dd19c3d556"
+      ] 
+    },
+    "description": "<div>Advanced Web Technologies (WebTech 2)</div>",
+    "smallDescription": "Advanced Web Technologies (WebTech 2)", 
+    "picture": "/img/courses/56b11bf8309953f719610f65.png",
+    "courseTags": [
+      {
+        "_id": "56cde0ff8754f7b704180ada", 
+        "dateAdded": "2016-02-24T16:57:35.982Z",
+        "slug": "PHP",
+        "name": "PHP"  
+      }
+    ],
+    "managers": [],
+    "isEnrolled": false
+  }
+}
+```
+
+`GET /api/category/<categoryId>/courses`
+
+### Response
+Key | Value
+----- | -----
+result | boolean
+course | Course 
+
+# Maps
+## Models
+<table>
+<tr><td colspan="2"><strong>TreeNode</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>name</td><td>String</td></tr>  
+<tr><td>Resources</td><td>[Resource]</td></tr>
+<tr><td>courseId</td><td>ObjectId</td></tr> 
+<tr><td>positionFromRoot</td><td>{ "y": int, "x": int }</td></tr>
+<tr><td>isDeleted</td><td>boolean</td></tr>
+<tr><td>dateAdded</td><td>Date()</td></tr>
+<tr><td>createdBy</td><td>{"name": String}</td></tr> 
+<tr><td>type</td><td>String (subTopic | contentNode)</td></tr>
+<tr><td>childrens</td><td>[TreeNode]</td></tr>
+</table>
+<table>
+<tr><td colspan="2"><strong>Resource</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>courseId</td><td>ObjectId</td></tr> 
+<tr><td>treeNodeId</td><td>ObjectId</td></tr> 
+<tr><td>link</td><td>String (URL)</td></tr>
+<tr><td>dateAdded</td><td>Date()</td></tr>
+<tr><td>createdBy</td><td>{"name": String}</td></tr> 
+<tr><td>type</td><td>String (pdf | video | youtube | mp4)</td></tr> 
+</table>
+## Get All Nodes Based on Course Id
+```shell
+curl "https://coursemapper/api/treeNodes/course/<courseId>"
+  -H "Authorization: Bearer <accessToken>"
+
+e.g.:
+curl "https://coursemapper/api/treeNodes/course/56b0efc1309953f719610aaa"
+  -H "Authorization: Bearer 2ksjow2039z=_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah"
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "result": true,
+  "treeNodes": [
+    {
+      "_id": "56b11ea0309953f719610f66",
+      "dateUpdated": "2016-02-02T21:49:06.216Z",
+      "dateAdded": "2016-02-02T21:24:48.164Z",
+      "name": "Overview",
+      "createdBy": {
+        "_id": "5530bef8e5a9e0dd261059b8",
+        "displayName": "akana abaca"
+      },
+      "courseId": "56b11bf8309953f719610f65",
+      "positionFromRoot": {
+        "y": 6,
+        "x": 221
+      }, 
+      "isDeleted": false,
+      "resources": [],
+      "type": "subTopic",
+      "childrens": [
+        {
+          "_id": "56b12452309953f719610f67",
+          "dateUpdated": "2016-02-24T18:52:04.795Z",
+          "dateAdded": "2016-02-02T21:49:06.207Z",
+          "name": "Overview of Web Tech tes",
+          "createdBy": {
+            "_id": "5530bef8e5a9e0dd261059b8",
+            "displayName": "akana abaca"
+          },
+          "courseId": "56b11bf8309953f719610f65",
+          "parent": "56b11ea0309953f719610f66",
+          "positionFromRoot": {
+            "y": 77,
+            "x": 407
+          }, 
+          "isDeleted": false,
+          "resources": [
+            {
+              "_id": "56b12452309953f719610f68",
+              "dateUpdated": "2016-02-02T21:49:06.210Z",
+              "dateAdded": "2016-02-02T21:49:06.210Z",
+              "type": "pdf",
+              "createdBy": "5530bef8e5a9e0dd261059b8",
+              "link": "/resources/56b12452309953f719610f67.pdf",
+              "courseId": "56b11bf8309953f719610f65",
+              "treeNodeId": "56b12452309953f719610f67", 
+              "isDeleted": false
+            },
+            {
+              "_id": "56b1e2a7a526d27803559a14",
+              "dateUpdated": "2016-02-03T11:21:11.525Z",
+              "dateAdded": "2016-02-03T11:21:11.525Z",
+              "type": "mp4",
+              "createdBy": "5530bef8e5a9e0dd261059b8",
+              "link": "/resources/56b12452309953f719610f67.mp4",
+              "courseId": "56b11bf8309953f719610f65",
+              "treeNodeId": "56b12452309953f719610f67", 
+              "isDeleted": false
+            }
+          ],
+          "type": "contentNode",
+          "childrens": []
+        }
+      ]
+    }
+  ]
+}
+```
+`GET /api/treeNodes/course/<courseId>`
+
+### Response
+Key | Value
+----- | -----
+result | boolean
+treeNodes | [treeNode] 
+
+## Get Node Detail
+
+```shell
+curl "https://coursemapper/api/treeNode/<treeNodeId>"
+  -H "Authorization: Bearer <accessToken>"
+
+e.g.:
+curl "https://coursemapper/api/treeNode/56b0efc1309953f719610aaa"
+  -H "Authorization: Bearer 2ksjow2039z=_18jaszxvnKLJlsfHUHfsjklmvoiay9146fah"
+```
+> The above command returns JSON structured like this:
+
+```json
+{
+  "result": true,
+  "treeNode": 
+  {
+    "_id": "56b12452309953f719610f67",
+    "dateUpdated": "2016-02-24T18:52:04.795Z",
+    "dateAdded": "2016-02-02T21:49:06.207Z",
+    "name": "Overview of Web Tech tes",
+    "createdBy": {
+      "_id": "5530bef8e5a9e0dd261059b8",
+      "displayName": "akana abaca"
+    },
+    "courseId": "56b11bf8309953f719610f65",
+    "parent": "56b11ea0309953f719610f66",
+    "positionFromRoot": {
+      "y": 77,
+      "x": 407
+    }, 
+    "isDeleted": false,
+    "resources": [
+      {
+        "_id": "56b12452309953f719610f68",
+        "dateUpdated": "2016-02-02T21:49:06.210Z",
+        "dateAdded": "2016-02-02T21:49:06.210Z",
+        "type": "pdf",
+        "createdBy": "5530bef8e5a9e0dd261059b8",
+        "link": "/resources/56b12452309953f719610f67.pdf",
+        "courseId": "56b11bf8309953f719610f65",
+        "treeNodeId": "56b12452309953f719610f67", 
+        "isDeleted": false
+      },
+      {
+        "_id": "56b1e2a7a526d27803559a14",
+        "dateUpdated": "2016-02-03T11:21:11.525Z",
+        "dateAdded": "2016-02-03T11:21:11.525Z",
+        "type": "mp4",
+        "createdBy": "5530bef8e5a9e0dd261059b8",
+        "link": "/resources/56b12452309953f719610f67.mp4",
+        "courseId": "56b11bf8309953f719610f65",
+        "treeNodeId": "56b12452309953f719610f67", 
+        "isDeleted": false
+      }
+    ],
+    "type": "contentNode",
+    "childrens": []
+  }
+}
+```
+`GET /api/treeNode/<treeNodeId>`
+
+### Response
+Key | Value
+----- | -----
+result | boolean
+treeNode | treeNode
+
+# Discussions
+## Get Discussions Based on Course Id
+## Get Discussion Detail and Its Replies
+
+# Links
+## Get Links Based on Node Id
+## Get Discussion Detail and Its Replies
+  
+# Votes
+
+#Accounts
  
