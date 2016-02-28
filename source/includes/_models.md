@@ -75,8 +75,20 @@
 <tr><td>_id</td><td>ObjectId</td></tr>
 <tr><td>parentPost</td><td>postId</td></tr>  
 <tr><td>content</td><td>String</td></tr>
-<tr><td>courseId</td><td>ObjectId (if it is a discussion)</td></tr> 
-<tr><td>contentNode</td><td>ObjectId (if it is a link)</td></tr> 
+<tr><td>courseId</td><td>ObjectId</td></tr> 
+<tr><td>createdBy</td><td>User</td></tr>
+<tr><td>dateAdded</td><td>Date()</td></tr> 
+<tr><td>dateUpdated</td><td>Date()</td></tr> 
+<tr><td>title</td><td>String</td></tr>
+<tr><td>totalVotes</td><td>int</td></tr>
+</table> 
+
+## Link
+<table>
+<tr><td colspan="2"><strong>Link</strong></td></tr>
+<tr><td>_id</td><td>ObjectId</td></tr>
+<tr><td>content</td><td>String</td></tr>
+<tr><td>contentNode</td><td>ObjectId</td></tr> 
 <tr><td>createdBy</td><td>User</td></tr>
 <tr><td>dateAdded</td><td>Date()</td></tr> 
 <tr><td>dateUpdated</td><td>Date()</td></tr> 

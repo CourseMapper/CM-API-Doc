@@ -1,5 +1,4 @@
-# Accounts 
-  
+# Accounts  
 
 ## Get Account Based on Username
 ```shell
